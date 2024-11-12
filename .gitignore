@@ -1,2 +1,3 @@
 .histfile
 __pycache__/
+.venv/
