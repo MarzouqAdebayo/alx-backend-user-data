@@ -10,8 +10,11 @@ class Auth:
         """require_auth method"""
         if path is None or excluded_paths is None:
             return True
-        if path in excluded_paths or f"{path}/" in excluded_paths:
-            return False
+        for item in excluded_paths:
+            if item[-1] == "*" and path.startswith(item[:-1]):
+                return False
+            elif path == item or path == f"{path}/":
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
