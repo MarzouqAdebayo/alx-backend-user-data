@@ -3,6 +3,7 @@
 from api.v1.auth.auth import Auth
 from base64 import b64decode
 import binascii
+import re
 
 
 class BasicAuth(Auth):
@@ -41,18 +42,17 @@ class BasicAuth(Auth):
         decoded_base64_authorization_header: str,
     ) -> (str, str):
         """Extract user credentials from Basic Auth header"""
-        if (
-            decoded_base64_authorization_header is None
-            or not isinstance(decoded_base64_authorization_header, str)
-            or decoded_base64_authorization_header.find(":") == -1
+        if decoded_base64_authorization_header is None or not isinstance(
+            decoded_base64_authorization_header, str
         ):
             return (None, None)
-        try:
-            output = b64decode(
-                decoded_base64_authorization_header,
-                validate=True,
-            )
-            splited_out = output.decode("utf-8").split(":")
-            return (splited_out[0], splited_out[1])
-        except (binascii.Error, UnicodeDecodeError):
+        pattern = r"(?P<user>[^:]+):(?P<password>.+)"
+        match = re.fullmatch(
+            pattern,
+            decoded_base64_authorization_header.strip(),
+        )
+        if match is None:
             return (None, None)
+        user = match.group("user")
+        password = match.group("password")
+        return user, password
