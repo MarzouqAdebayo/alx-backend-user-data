@@ -13,6 +13,6 @@ class SessionAuth(Auth):
         """Creates a user session and returns session id"""
         if user_id is None or not isinstance(user_id, str):
             return None
-        session_id = uuid.uuid()
+        session_id = str(uuid.uuid())
         SessionAuth.user_id_by_session_id[session_id] = user_id
         return session_id
