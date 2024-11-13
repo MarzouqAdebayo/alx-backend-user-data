@@ -10,6 +10,7 @@ import os
 
 from api.v1.auth.auth import Auth
 from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth
 
 
 app = Flask(__name__)
@@ -22,6 +23,8 @@ if auth_type == "auth":
     auth = Auth()
 if auth_type == "basic_auth":
     auth = BasicAuth()
+if auth_type == "session_auth":
+    auth = SessionAuth()
 
 
 @app.errorhandler(404)
@@ -47,11 +50,7 @@ def authenticate_user():
     """Authenticates a user before processing a request"""
     if auth is None:
         return None
-    excluded_paths = [
-        "/api/v1/status/",
-        "/api/v1/unauthorized/",
-        "/api/v1/forbidden/"
-    ]
+    excluded_paths = ["/api/v1/status/", "/api/v1/unauthorized/", "/api/v1/forbidden/"]
     if not auth.require_auth(request.path, excluded_paths):
         return None
     if auth.authorization_header(request) is None:
