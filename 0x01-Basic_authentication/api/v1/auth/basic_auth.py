@@ -64,6 +64,7 @@ class BasicAuth(Auth):
         user_email: str,
         user_pwd: str,
     ) -> TypeVar("User"):
+        """Searches for user and validates the user password"""
         if (
             user_email is None
             or not isinstance(user_email, str)
