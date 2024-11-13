@@ -2,6 +2,7 @@
 """Module 'auth.py' """
 import os
 from typing import TypeVar, List
+from flask import request
 
 
 class Auth:
