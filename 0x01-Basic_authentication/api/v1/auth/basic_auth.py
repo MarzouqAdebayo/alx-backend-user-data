@@ -4,3 +4,4 @@
 
 class BasicAuth:
     """Represents Basic Auth"""
+    pass
