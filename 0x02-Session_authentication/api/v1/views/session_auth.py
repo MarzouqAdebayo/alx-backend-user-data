@@ -4,7 +4,6 @@ import os
 from typing import Tuple
 from flask import request, jsonify, abort
 from api.v1.views import app_views
-from api.v1.app import auth
 
 
 @app_views.route(
@@ -45,7 +44,9 @@ def login() -> Tuple[str, int]:
 )
 def logout() -> Tuple[str, int]:
     """GET /api/v1/auth_session/logout"""
+    from api.v1.app import auth
+
     destroyed = auth.destroy_session(request)
-    if destroyed is False:
+    if not destroyed:
         abort(404)
-    return {}, 200
+    return jsonify({}), 200
