@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Module 'auth.py' """
+from flask import request
 import os
 from typing import TypeVar, List
-from flask import request
 
 
 class Auth:
@@ -28,7 +28,7 @@ class Auth:
         return request.headers.get("Authorization")
 
     def current_user(self, request=None) -> TypeVar("User"):
-        """current_user method"""
+        """current_user method, gets current_user from request"""
         return None
 
     def session_cookie(self, request=None) -> str:
