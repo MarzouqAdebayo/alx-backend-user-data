@@ -2,8 +2,9 @@
 """Module 'session_auth.py' """
 import os
 from typing import Tuple
-from flask import request, jsonify
+from flask import request, jsonify, abort
 from api.v1.views import app_views
+from api.v1.app import auth
 
 
 @app_views.route(
@@ -36,3 +37,15 @@ def login() -> Tuple[str, int]:
     session_name = os.getenv("SESSION_NAME")
     response.set_cookie(session_name, session_id)
     return response
+
+
+@app_views.route(
+    "auth_session/logout",
+    strict_slashes=False,
+)
+def logout() -> Tuple[str, int]:
+    """GET /api/v1/auth_session/logout"""
+    destroyed = auth.destroy_session(request)
+    if destroyed is False:
+        abort(404)
+    return {}, 200
