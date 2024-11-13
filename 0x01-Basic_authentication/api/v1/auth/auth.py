@@ -13,7 +13,7 @@ class Auth:
         for item in excluded_paths:
             if item[-1] == "*" and path.startswith(item[:-1]):
                 return False
-            elif path == item or path == f"{path}/":
+            elif path == item or path == f"{item}/":
                 return False
         return True
 
