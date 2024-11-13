@@ -24,12 +24,9 @@ def login() -> Tuple[str, int]:
         return jsonify({"error": "password missing"}), 400
     from models.user import User
 
-    try:
-        users = User.search({"email": user_email})
-    except Exception:
-        return jsonify({"error", "no user found for this email"}), 404
+    users = User.search({"email": user_email})
     if len(users) == 0:
-        return jsonify({"error", "no user found for this email"}), 404
+        return jsonify({"error": "no user found for this email"}), 404
     if not users[0].is_valid_password(user_pwd):
         return jsonify({"error": "wrong password"}), 401
     from api.v1.app import auth
