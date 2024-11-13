@@ -4,7 +4,6 @@ import os
 from typing import Tuple
 from flask import request, jsonify
 from api.v1.views import app_views
-from models import User
 
 
 @app_views.route(
@@ -23,6 +22,7 @@ def login() -> Tuple[str, int]:
     user_pwd = request.form.get("password")
     if not user_pwd or not len(user_pwd.strip()):
         return jsonify({"error": "password missing"}), 400
+    from models.user import User
     users = User.search({"email": user_email})
     if len(users) == 0:
         return jsonify({"error", "no user found for this email"}), 404
