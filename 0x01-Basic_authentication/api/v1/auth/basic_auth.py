@@ -2,6 +2,7 @@
 """Module 'basic_auth.py' """
 from api.v1.auth.auth import Auth
 from base64 import b64decode
+import binascii
 
 
 class BasicAuth(Auth):
@@ -32,5 +33,5 @@ class BasicAuth(Auth):
         try:
             b64decode(base64_authorization_header, validate=True)
             return base64_authorization_header.decode("utf-8")
-        except Exception:
+        except (binascii.Error, UnicodeDecodeError):
             return None
