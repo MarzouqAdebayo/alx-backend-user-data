@@ -2,7 +2,7 @@
 """Module 'session_auth.py' """
 import uuid
 from api.v1.auth.auth import Auth
-from models import User
+from models.user import User
 
 
 class SessionAuth(Auth):
