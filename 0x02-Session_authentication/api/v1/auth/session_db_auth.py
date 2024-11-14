@@ -27,10 +27,6 @@ class SessionDBAuth(SessionExpAuth):
         if len(sessions) == 0:
             return None
         session_data = sessions[0]
-        if self.session_duration <= 0:
-            return session_data["user_id"]
-        if "created_at" not in session_data:
-            return None
         current_time = datetime.now()
         life = timedelta(seconds=self.session_duration)
         expiry_time = session_data["created_at"] + life
