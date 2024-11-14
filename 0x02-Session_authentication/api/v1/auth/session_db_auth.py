@@ -31,15 +31,13 @@ class SessionDBAuth(SessionExpAuth):
             return None
         session_data = sessions[0]
         if self.session_duration <= 0:
-            return session_data["user_id"]
-        if "created_at" not in session_data:
-            return None
+            return session_data.user_id
         current_time = datetime.now()
         life = timedelta(seconds=self.session_duration)
-        expiry_time = session_data["created_at"] + life
+        expiry_time = session_data.created_at + life
         if expiry_time < current_time:
             return None
-        return session_data["user_id"]
+        return session_data.user_id
 
     def destroy_session(self, request=None) -> bool:
         """Destroys a session."""
