@@ -27,7 +27,6 @@ class SessionDBAuth(SessionExpAuth):
             sessions = UserSession.search({"session_id": session_id})
         except Exception:
             return None
-        print(sessions)
         if len(sessions) == 0:
             return None
         session_data = sessions[0]
@@ -40,7 +39,6 @@ class SessionDBAuth(SessionExpAuth):
         expiry_time = session_data["created_at"] + life
         if expiry_time < current_time:
             return None
-        print(session_data["user_id"])
         return session_data["user_id"]
 
     def destroy_session(self, request=None) -> bool:
