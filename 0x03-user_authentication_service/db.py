@@ -47,12 +47,17 @@ class DB:
         fields, values = [], []
         for key, value in kwargs.items():
             if hasattr(User, key):
-                fields.append(getattr(User, key))
-                fields.append(value)
+                fields.append(key)
+                values.append(value)
             else:
                 raise InvalidRequestError()
-        user = self._session.query(User).filter(
-            tuple_(*fields).in_([*values]),
+        print(fields, values)
+        user = (
+            self._session.query(User)
+            .filter(
+                tuple_(*fields).in_([tuple(values)]),
+            )
+            .first()
         )
         if user is None:
             raise NoResultFound()
