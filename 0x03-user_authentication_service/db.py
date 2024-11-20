@@ -51,7 +51,6 @@ class DB:
                 values.append(value)
             else:
                 raise InvalidRequestError()
-        print(fields, values)
         user = (
             self._session.query(User)
             .filter(
