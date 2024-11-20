@@ -42,7 +42,7 @@ class DB:
             new_user = None
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """Finds a user in the database using arguments passed in"""
         fields, values = [], []
         for key, value in kwargs.items():
