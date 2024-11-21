@@ -32,7 +32,7 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """Adds a new user into the database"""
+        """Saves a new user to the database"""
         try:
             new_user = User(email=email, hashed_password=hashed_password)
             self._session.add(new_user)
@@ -51,13 +51,18 @@ class DB:
                 values.append(value)
             else:
                 raise InvalidRequestError()
-        user = (
-            self._session.query(User)
-            .filter(
-                tuple_(*fields).in_([tuple(values)]),
+        try:
+            user = (
+                self._session.query(User)
+                .filter(
+                    tuple_(*fields).in_([tuple(values)]),
+                )
+                .one()
             )
-            .first()
-        )
-        if user is None:
-            raise NoResultFound()
+            if user is None:
+                raise NoResultFound()
+        except NoResultFound as e:
+            raise e
+        except InvalidRequestError as e:
+            raise e
         return user
