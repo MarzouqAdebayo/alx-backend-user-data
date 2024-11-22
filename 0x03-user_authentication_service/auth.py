@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Module 'auth.py' """
 import bcrypt
+import uuid
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 from user import User
@@ -9,6 +10,11 @@ from user import User
 def _hash_password(password: str) -> bytes:
     """Hashes password and returns bytes"""
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+
+
+def _generate_uuid() -> str:
+    """Generate a random uuid"""
+    return str(uuid.uuid4())
 
 
 class Auth:
@@ -35,3 +41,13 @@ class Auth:
             password.encode("utf-8"),
             _hash_password(password),
         )
+
+    def create_session(self, email: str) -> str:
+        """Creates a session_id, saves it to db and returns it as string"""
+        try:
+            user = self._db.find_user_by(email=email)
+        except Exception:
+            return None
+        session_id = _generate_uuid()
+        self._db.update_user(user.id, session_id=session_id)
+        return session_id
