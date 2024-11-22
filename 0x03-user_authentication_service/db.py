@@ -60,5 +60,5 @@ class DB:
         if not user:
             return None
         for key, value in kwargs.items():
-            user.__dict__[key] = value
+            setattr(user, key, value)
         self._session.commit()
