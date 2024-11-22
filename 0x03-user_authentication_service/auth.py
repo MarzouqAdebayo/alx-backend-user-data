@@ -38,7 +38,7 @@ class Auth:
         except Exception:
             return False
         return bcrypt.checkpw(
-            user.password,
+            user.hashed_password,
             _hash_password(password),
         )
 
