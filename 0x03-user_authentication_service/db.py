@@ -54,7 +54,7 @@ class DB:
         user = (
             self._session.query(User)
             .filter(
-                tuple_(*fields).in_([tuple(values)]),
+                tuple_(*fields).in_(values),
             )
             .one()
         )
