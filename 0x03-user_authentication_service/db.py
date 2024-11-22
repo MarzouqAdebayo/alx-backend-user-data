@@ -51,13 +51,7 @@ class DB:
                 values.append(value)
             else:
                 raise InvalidRequestError()
-        user = (
-            self._session.query(User)
-            .filter(
-                tuple_(*fields).in_(values),
-            )
-            .one()
-        )
+        user = self._session.query(User).filter_by(**kwargs).one()
         if user is None:
             raise NoResultFound()
         return user
