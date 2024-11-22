@@ -39,7 +39,7 @@ class DB:
             self._session.commit()
         except Exception:
             self._session.rollback()
-            new_user = None
+            return None
         return new_user
 
     def find_user_by(self, **kwargs) -> User:
@@ -51,18 +51,13 @@ class DB:
                 values.append(value)
             else:
                 raise InvalidRequestError()
-        try:
-            user = (
-                self._session.query(User)
-                .filter(
-                    tuple_(*fields).in_([tuple(values)]),
-                )
-                .one()
+        user = (
+            self._session.query(User)
+            .filter(
+                tuple_(*fields).in_([tuple(values)]),
             )
-            if user is None:
-                raise NoResultFound()
-        except NoResultFound as e:
-            raise e
-        except InvalidRequestError as e:
-            raise e
+            .one()
+        )
+        if user is None:
+            raise NoResultFound()
         return user
