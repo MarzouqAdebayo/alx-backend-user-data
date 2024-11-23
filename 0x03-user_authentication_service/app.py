@@ -66,7 +66,7 @@ def get_reset_password_token() -> str:
     email = request.cookies.get("email")
     try:
         reset_token = AUTH.get_reset_password_token(email)
-    except ValueError:
+    except Exception:
         abort(403)
     return jsonify({"email": email, "reset_token": reset_token})
 
