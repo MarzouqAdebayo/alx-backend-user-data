@@ -16,6 +16,7 @@ if user:
 else:
     print(user)
 
+print(auth.get_reset_password_token(email))
 #
 #
 # print(auth.valid_login(email, password))
