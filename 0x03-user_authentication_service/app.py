@@ -64,8 +64,9 @@ def profile() -> str:
 def get_reset_password_token() -> str:
     """POST /get_reset_password_token"""
     email = request.cookies.get("email")
-    reset_token = AUTH.get_reset_password_token(email)
-    if reset_token is None:
+    try:
+        reset_token = AUTH.get_reset_password_token(email)
+    except ValueError:
         abort(403)
     return jsonify({"email": email, "reset_token": reset_token})
 
