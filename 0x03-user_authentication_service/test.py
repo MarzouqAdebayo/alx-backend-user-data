@@ -8,15 +8,16 @@ email = "bob@bob.com"
 password = "MyPwdOfBob"
 auth = Auth()
 user = auth.register_user(email, password)
+print(user.email)
 # session_id = auth.create_session(email)
 # auth.destroy_session(user.id)
-user = auth.get_user_from_session_id(None)
-if user:
-    print(user.email)
-else:
-    print(user)
+# user = auth.get_user_from_session_id(None)
+# if user:
+#     print(user.email)
+# else:
+#     print(user)
 
-print(auth.get_reset_password_token(email))
+# print(auth.get_reset_password_token(email))
 #
 #
 # print(auth.valid_login(email, password))

@@ -63,7 +63,7 @@ def profile() -> str:
 @app.route("/reset_password", methods=["POST"], strict_slashes=False)
 def get_reset_password_token() -> str:
     """POST /get_reset_password_token"""
-    email = request.cookies.get("email")
+    email = request.form.get("email")
     try:
         reset_token = AUTH.get_reset_password_token(email)
     except Exception:
