@@ -9,7 +9,7 @@ password = "MyPwdOfBob"
 auth = Auth()
 auth.register_user(email, password)
 session_id = auth.create_session(email)
-user = auth.get_user_from_session_id(session_id + "hy")
+user = auth.get_user_from_session_id(session_id)
 if user:
     print(user.email)
 else:

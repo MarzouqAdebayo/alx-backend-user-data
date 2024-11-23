@@ -2,6 +2,7 @@
 """Module 'auth.py' """
 import bcrypt
 import uuid
+from typing import Union
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 from user import User
@@ -52,7 +53,7 @@ class Auth:
         self._db.update_user(user.id, session_id=session_id)
         return session_id
 
-    def get_user_from_session_id(self, session_id: str) -> User:
+    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
         """Get user by their session_id"""
         try:
             user = self._db.find_user_by(session_id=session_id)
